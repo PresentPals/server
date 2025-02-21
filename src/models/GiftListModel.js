@@ -37,7 +37,7 @@ const GiftListSchema = new mongoose.Schema({
         required: true
     },
     childGiftList: {
-        // Array of the childs gift objects.
+        // Array of each of the childs gift objects.
         type: [childGiftSchema],
         required: true
     },
