@@ -28,14 +28,13 @@ const UserSchema = new mongoose.Schema({
   },
   phonenumber: {
     // Users phone number.
-    type: String,
-    required: true
+    type: String
   },
   admin: {
     // If the user has admin rights or not.
     type: Boolean,
     required: true,
-    default: true,
+    default: true
   },
   avatar: {
     // The user can add their own avatar image.

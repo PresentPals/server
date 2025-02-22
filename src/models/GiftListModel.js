@@ -4,12 +4,11 @@ const childGiftSchema = new mongoose.Schema({
     // Schema list for the gifts the child would like.
     childGift: {
         // Gifts added the child would like.
-        type: String,
-        required: true
+        type: String
       },
       giftDescription: {
         // Description of the gift.
-        type: String,
+        type: String
       },
       giftImage: {
         // Image of the gift.
@@ -29,7 +28,7 @@ const GiftListSchema = new mongoose.Schema({
     },
     giftListImage: {
         // If the user creating wants to add a gift list image.
-        type: String,
+        type: String
     },
     childUser: {
         // The child user this gift list is for.
@@ -38,8 +37,7 @@ const GiftListSchema = new mongoose.Schema({
     },
     childGiftList: {
         // Array of each of the childs gift objects.
-        type: [childGiftSchema],
-        required: true
+        type: [childGiftSchema]
     },
     userCreated: {
         // User that created the list.
