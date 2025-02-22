@@ -115,3 +115,11 @@ async function deleteGiftList(request, response) {
     response.status(500).json({ message: error.message });
   }
 }
+
+module.exports = {
+  createGiftList,
+  getGiftList,
+  updateGiftList,
+  deleteGiftList
+};
+
