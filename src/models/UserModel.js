@@ -14,7 +14,7 @@ const UserSchema = new mongoose.Schema({
     // The user password to login.
     type: String,
     required: true,
-    minLength: 6
+    minLength: 8
   },
   firstname: {
     // Users first name.
