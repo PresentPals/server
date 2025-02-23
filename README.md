@@ -33,6 +33,7 @@ GiftListModel:
 
         Fields:
         - giftListTitle
+        - accountEmail
         - giftListImage
         - childUser
         - childGiftList
