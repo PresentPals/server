@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const childGiftSchema = new mongoose.Schema({
     // Schema list for the gifts the child would like.
-    childGift: {
+      giftName: {
         // Gifts added the child would like.
         type: String
       },
@@ -45,13 +45,18 @@ const GiftListSchema = new mongoose.Schema({
         ref: "User",
         required: true
     },
+    privateList: {
+       // true = private, false = public
+       type: Boolean,
+       default: false
+    },
     dateCreated: {
         // Date the list was created.
         type: Date,
         default: Date.now
     },
-    dateExpired: {
-        // Date the list expires = because of the childUsers birthdate, Christmas day, date of the party etc.
+    dateEvent: {
+        // Date the event this list is required = because of the childUsers birthdate, Christmas day, date of the party etc.
         type: Date,
         required: true
     },

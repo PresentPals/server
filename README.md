@@ -8,10 +8,11 @@ UserModel:
     - UserSchema:
 
         Fields:
-        - email
+        - accountEmail
         - password
         - firstname
         - lastname
+        - userEmail
         - phonenumber
         - admin
         - avatar
@@ -23,7 +24,7 @@ GiftListModel:
     - childGiftSchema:
 
         Fields:
-        - childGift
+        - giftName
         - giftDescription
         - giftImage
         - giftWebAddress
@@ -36,5 +37,6 @@ GiftListModel:
         - childUser
         - childGiftList
         - userCreated
+        - privateList
         - dateCreated
-        - dateExpired
+        - dateEvent

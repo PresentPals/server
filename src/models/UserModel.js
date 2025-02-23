@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
-  email: {
-    // The email address for a user to log in.
+  accountEmail: {
+    // The email address for admin user to log in. This used to group all family & friends to the same account
     type: String,
     required: true,
     unique: true,
@@ -25,6 +25,10 @@ const UserSchema = new mongoose.Schema({
     // Users last name.
     type: String,
     required: true
+  },
+  userEmail: {
+    // each users email address (for users reference only).
+    type: String
   },
   phonenumber: {
     // Users phone number.
