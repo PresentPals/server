@@ -5,10 +5,10 @@ const jwt = require("jsonwebtoken");
 
 async function signupUser(request, response) {
     // Importing the signup details from the request body
-    const { firstname, lastname, email, password } = request.body;
+    const { accountEmail, firstname, lastname, password } = request.body;
 
     // Checking to see if the email exists
-    const existingEmail = await User.findOne({ email });
+    const existingEmail = await User.findOne({ accountEmail });
 
     // If the email exists, send an error message
     if (existingEmail) {
@@ -24,7 +24,7 @@ async function signupUser(request, response) {
 
     // Create the user using the User model
     const user = await User.create({
-        email,
+        accountEmail,
         firstname,
         lastname,
         password: hashedPassword 
@@ -34,23 +34,23 @@ async function signupUser(request, response) {
     response
     .status(201)
     .json({
-        "message": `User ${firstname}, ${lastname} with email: ${email}, has successfully signed up!`
+        "message": `User ${firstname}, ${lastname} with email: ${accountEmail}, has successfully signed up!`
     });
 }
 
 async function loginUser(request, response) {
     // Importing the email and password from the request body
-    const { email, password } = request.body;
+    const { accountEmail, password } = request.body;
 
     // Check if the user is in the database
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ accountEmail });
 
     // If the user does not exist, send an error message
     if (!user){
         return response
         .status(400)
         .json({
-            "message": "Invalid email. Email does not exist. Please go to the signup page"
+            "message": "Invalid email. Email does not exist. Please go to the signup page."
         });
     }
 

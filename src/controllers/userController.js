@@ -1,5 +1,8 @@
 const { User } = require("../models/UserModel");
 
+const bcrypt = require("bcrypt");
+
+
 async function createUser(request, response) {
   try {
     const user = await User.create(request.body); // Create the entire body 
@@ -37,7 +40,7 @@ async function getUser(request, response) {
 
 async function updateUser(request, response) {
   try {
-    const { firstname, lastname, phonenumber, avatar, userImage, age, admin } = request.body;
+    const { password, firstname, lastname, userEmail, phonenumber, avatar, admin, userImage, age  } = request.body;
 
     // Find the user based on firstname and lastname
     const user = await User.findOne({
@@ -48,13 +51,20 @@ async function updateUser(request, response) {
       return response.status(404).json({ message: 'User names not found' });
     }
 
+  // Use bcrypt to hash the password
+    const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt value
+
     // Update the user with the new data from the request body
     await user.update({        
+      password: hashedPassword,
+      firstname,
+      lastname,
+      userEmail,
       phonenumber,   
-      avatar,        
-      userImage,     
-      age,          
+      avatar,
       admin,         
+      userImage,     
+      age,              
     });
 
     // Return the updated user
