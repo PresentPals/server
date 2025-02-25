@@ -1,12 +1,39 @@
 const { GiftList } = require("../models/GiftListModel");
 
 
+async function createGiftList(request, response) {
+  try {
+
+    const { giftListTitle, accountEmail,  giftListImage, childUser, childGiftList, userCreated, privateList,  dateEvent } = request.body;
+
+    // Check if a gift list with the same title already exists
+    const existingGiftList = await GiftList.findOne({
+      where: { giftListTitle }
+    });
+
+    if (existingGiftList) {
+      return response
+        .status(400)
+        .json({ message: "A gift list with this title already exists. Please re enter a new title." });
+    }
+
+    const giftlist = await GiftList.create(request.body); // Create the entire body
+
+    response.status(201).json({
+      message: "The gift list details created successfully",
+      giftlist: giftlist,
+    });
+  } catch (error) {
+    response.status(500).json({ message: error.message });
+  }
+}
+
 async function getGiftList(request, response) {
   try {
     const { giftListTitle } = request.body; // Gift list title from the body
 
     const giftlist = await GiftList.FindOne({
-      where: { giftListTitle },
+      where: { giftListTitle }
     }); // Find the title of the gift list in the collection.
 
     if (!giftlist) {
@@ -24,12 +51,14 @@ async function getGiftList(request, response) {
   }
 }
 
-async function saveGiftList(request, response) {
+async function updateGiftList(request, response) {
 
   const { giftListTitle, accountEmail,  giftListImage, childUser, childGiftList, userCreated, privateList,  dateEvent } = request.body;
 try {
     // Check if the gift list already exists for the user (based on childUser or other identifiers)
-    const existingGiftList = await GiftList.findOne({ giftListTitle});
+    const existingGiftList = await GiftList.findOne({
+      where: { giftListTitle }
+    });
 
     if (existingGiftList) {
         // Update the existing gift list (if any)
@@ -49,28 +78,13 @@ try {
         await existingGiftList.save();
 
         response.status(200).json({
-            message: "Gift list created / updated successfully",
+            message: "Gift list updated successfully",
             giftList: existingGiftList
         });
     } else {
-        // If no existing gift list, create a new one
-        const newGiftList = new GiftList({
-            giftListTitle,
-            accountEmail,
-            giftListImage,
-            childUser,
-            childGiftList,
-            userCreated,
-            privateList,
-            dateEvent
-        });
-
-        await newGiftList.save();
-
-        response.status(201).json({
-            message: "Gift list created successfully",
-            giftList: newGiftList
-        });
+        return response
+          .status(404)
+          .json({ message: "That gift list title does not exist." });
     }
   } catch (error) {
     console.error(error);
@@ -106,7 +120,7 @@ async function deleteGiftList(request, response) {
 
 module.exports = {
   getGiftList,
-  saveGiftList,
+  updateGiftList,
   deleteGiftList
 };
 
