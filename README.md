@@ -43,7 +43,9 @@ The fields under the childGiftSchema are
 - <b>giftWebAddress</b> This is where you can add the link to a website to where the gift can be purchased from an e-commerce store.
 
 
-    - childGiftSchema:
+#### childGiftSchema:
+    
+    - childGiftSchema
 
         Fields:
         - giftName
@@ -63,7 +65,9 @@ This defines the overall structure of the gift list. It represents a collection 
 - <b>dateCreated</b> The date the list was created, this could be useful for tracking and sorting gift lists by your creation time.
 - <b>dateEvent</b> This enables you to put in the date of the birthday or event, to see a countdown until the special day. Helps to contextualise the gift list and can be used for event planning.
 
-    - GiftListSchema:
+#### GiftListSchema:
+
+    - GiftListSchema
 
         Fields:
         - giftListTitle
