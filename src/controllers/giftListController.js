@@ -32,7 +32,7 @@ async function getGiftList(request, response) {
   try {
     const { giftListTitle } = request.body; // Gift list title from the body
 
-    const giftlist = await GiftList.FindOne({
+    const giftlist = await GiftList.findOne({
       where: { giftListTitle }
     }); // Find the title of the gift list in the collection.
 
