@@ -9,7 +9,7 @@ const router = express.Router();
 //use the validateToken middleware on these routes
 router.use(validateToken);
 
-// GET localhost:3000/api/user/
+// POST localhost:3000/api/user/
 router.post("/", createUser);
 
 // GET localhost:3000/api/user/:id
