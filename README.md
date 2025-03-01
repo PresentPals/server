@@ -199,3 +199,81 @@ Error Handling with try... catch block is used to handle any errors that mich oc
             deleteGiftList
         };
 This code is exporting the three functions from a module so that they can be imported and used in other parts of the application. By exporting them this way other files can access and use these functions by requiring this file. Other files can then import and use these functions for their respective routes of business logic.
+
+## User Controller
+
+### Importing user controller & bcrypt
+![image_user_controller_import](./src/images/user_controller_import.png)
+
+The first line of code is destructuring the assignment that is used ti import the User model from the UserModel file, this Node.js requre statement imports the model from the UserModel.js Model folder. { User } is being destructured in JavaScript where you can extract the object and utilise its specific properties variables.
+
+The second line of code is used to import the bcrypt module into your Node.js application, this <b>require</b> built in function is used to import external modules and/or local files. In this code, bcrypt is an external module that is being imported to be used to hash passwords securely. The popular bcrypt library is commonly used for hashing and salting passwords to ensure sensitive data like passwords is stored securely and not in plain text. This code is assigning the entire bcrypt module into our code and assigning it to a variable called <b>bcrypt</b>
+
+### Create user function
+![image_create_user_function](./src/images/create_user.png)
+In this code <b>createUser</b> we have provided an asynchronous function that is responsible for creating the new user into the database. It uses an <b>await</b> to wait for the asynchronous operation of creating the user to complete before it then responds to the client to advise if the operation was successful or not. The asynchronous function will perform the operations, like a database query, then return a promise. The <b>request</b> represents the HTTP request which contains the user data sent via the client typically in the request body. The <b>response</b> represents the HTTP response which is used to send data back to the client.
+
+The <b>try...catch</b> block is where the code might throw any errors so is placed inside this to catch the errors, should an error occur the try block error is caught and handled here, in this instance or an error it returns a 500 Internal Server error response message. Otherwise if successful it returns <b>response.status(201)</b> which indicates that the resource is successfully created. Then the <b>.json({...})</b> method sends a JSON response to the client in the form of a message that the user was created successfully.
+
+Full createUser Flow
+    - client sends a POST request to the server in the request body.
+    - createUser function is invoked.
+    - User.create() method is called and supplied with firstname, lastname, email, password.
+    - User is then created in the database
+    - If successful 201 created status message is returned.
+    - If an error occurs a 500 Internal Server Error message is returned.
+
+### Get User Request
+![image_get_user_request](./src/images/get_user.png)
+
+
+<b>asynchronous</b> This code snippet is a function to get the user from the database. The <b>getUser</b> function is an asynchronous function that retrieves the users details based on their first name and last name from the database. It queries the database to check if the user exists with the supplied first name and last name. The <b>async</b> function will handle the database queries while the <b>request</b> object will represent the HTTP request which contains all the information sent from the client in the body. The <b>response</b> object is used to send the response back to the client.
+
+<b>extracting data const { firstname, lastname } = request.body;</b>
+This line of code uses a destructuring assignment to extract the data from the request body, the client sents these two values in the body of the HTTP request when calling this route.
+
+<b>searching const user = await User.findOne({where: {firstname, lastname}});</b>
+This code ensures that the code waits for the asynchronous operation to complete searching before moving forward, the <b>findOne()</b> is used to find a specific user that matches the supplied criteria, it will query the database and search for the spefic user and will only return a value if both criteria is met.
+
+   if (!user) {
+      return response.status(404).json({ message: 'User names not found' });
+    }
+If no user is found or is null, the server will respond with 404 Not Found status and a message to indicate that no user was found.
+
+   response.status(200).json({
+      message: "User details found.",
+      user: user
+    });
+If the user is found in the database then the server will respond with 200 OK and with a message User details found.
+
+  catch (error) {
+    response.status(500).json({ message: error.message });
+  }
+
+Because of the try...catch block, if any errors occur within this function, they are automatically handled.
+
+### Update User Function
+![image_update_user](./src/images/)
+
+The async function is designed to handle the process of updating the users details in the database, when the async function is declared it will handle the operations asynchronously, the request handles the HTTP requests containing the users updated details from the body of the request and the response object is used to send the response back to the client once the operation has completed.
+
+<b>Extracting Data from the request.body</b>
+
+    const { password, firstname, lastname, userEmail, phonenumber, avatar, admin, userImage, age  } = request.body;
+
+This is used to destructure and extract the properties from the request.body, these values {password, firstname, lastname, userEmail, phonenumber, avatar, admin, userImage, age} are expected to come from the body of the HTTP request when the client wants to update their details.
+
+<b>try...catch</b> block is used to handle the update operation, and to catch any occuring errors during the execution. The catch block handles and returns the relevant error response.
+
+   // Find the user based on firstname and lastname
+    const user = await User.findOne({
+      where: { firstname, lastname },
+    });
+
+The code snipped will attempt to find in the database the user based on the firstname and lastname supplied in the request.body. Again the await function has been used because we are accessing the database and need the asynchronous function to finish before continuing on to the next line of code. If the firstname and lastname match before returning a response.
+
+If a match is found and both values are the same then it will return the corresponding user object which is assigned to the user variable. The bcrypt.hash() function will convert the password to a string, hashing ensures the password is stored securly in the database instead of storing a raw password. This is crucial in maintaining security for sensitive data and information.
+
+If no user is found to match the criteria user will be assigned a null value and a HTTP status message of 404 Not Found response will be returned to the client.
+
+
