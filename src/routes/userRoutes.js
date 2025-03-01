@@ -1,3 +1,5 @@
+// Import express and user controllers
+
 const express = require("express");
 const { createUser, getUser, updateUser, deleteUser  } = require("../controllers/userController");
 const { validateToken } = require("../middlewares/authMiddleware");

@@ -1,3 +1,4 @@
+// Import express and the controllers
 const express = require("express");
 const { createGiftList, getGiftList, updateGiftList, deleteGiftList  } = require("../controllers/giftListController");
 const { validateToken } = require("../middlewares/authMiddleware");
