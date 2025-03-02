@@ -5,10 +5,9 @@ const UserSchema = new mongoose.Schema({
     // The email address for admin user to log in. This used to group all family & friends to the same account
     type: String,
     required: true,
-    unique: true,
     trim: true,
     lowercase: true,
-    match: [/.+@.+\..+/i, "Please enter a valid email address"]
+    // match: [/.+@.+\..+/i, "Please enter a valid email address"]
   },
   password: {
     // The user password to login.
@@ -34,15 +33,14 @@ const UserSchema = new mongoose.Schema({
     // Users phone number.
     type: String
   },
+  child: {
+    type: Boolean,
+  },
   admin: {
     // If the user has admin rights or not.
     type: Boolean,
-    required: true,
+    // required: true,
     default: true
-  },
-  avatar: {
-    // The user can add their own avatar image.
-    type: String
   },
   userImage: {
     // The user can add a image of themselves.
