@@ -4,7 +4,7 @@ require("dotenv").config();
 async function validateToken (request, response, next) {
 
     // Get the token from the header.
-    const token = request.headers.jwt;
+    const token = request.headers["Authorization"]?.split(" ")[1]; // Extract token from Authorization header
 
     // If no token is provided.
     if (!token) {
