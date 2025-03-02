@@ -32,7 +32,7 @@ async function getGiftList(request, response) {
   try {
     const { giftListTitle } = request.body; // Gift list title from the body
 
-    const giftlist = await GiftList.findOne({
+    const giftlist = await GiftList.FindOne({
       where: { giftListTitle }
     }); // Find the title of the gift list in the collection.
 
@@ -119,6 +119,7 @@ async function deleteGiftList(request, response) {
 }
 
 module.exports = {
+  createGiftList,
   getGiftList,
   updateGiftList,
   deleteGiftList

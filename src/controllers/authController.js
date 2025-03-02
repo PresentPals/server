@@ -66,12 +66,12 @@ async function loginUser(request, response) {
     }
 
     const token = jwt.sign(
-        {userId: user._id},
+        {accountEmail: accountEmail},
         process.env.JWT_SECRET,
         { expiresIn: "1h"}
     );
 
-    response.json(
+    response.status(200).json(
         { token }
     );
 }
