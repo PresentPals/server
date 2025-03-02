@@ -1,4 +1,3 @@
-// Import express and singupUser & loginUser from authController module
 const express = require("express");
 const { signupUser, loginUser } = require("../controllers/authController");
 
