@@ -5,7 +5,7 @@ const { validateToken } = require("../middlewares/authMiddleware");
 const router = express.Router();
 
 //use the validateToken middleware on these routes
-// router.use(validateToken);
+router.use(validateToken);
 
 // GET localhost:5173/api/user/
 router.get("/", getAllUsers);
