@@ -28,10 +28,10 @@ async function createUser(request, response) {
 
 async function getAllUsers(request, response) {
   try {
-    // const { accountEmail } = request.authUserData;
-    // { accountEmail }
+    const { accountEmail } = request.authUserData;
+    
 
-    const users = await User.find();
+    const users = await User.find({ accountEmail });
 
     if (!users || users.length === 0) {
       return response.status(404).json({ message: "No profiles not found" });
@@ -50,7 +50,7 @@ async function getAllUsers(request, response) {
 
 async function getUser(request, response) {
   try {
-    // const { accountEmail } = request.authUserData;
+    const { accountEmail } = request.authUserData;
     const { id } = request.params;
     // const { firstname, lastname } = request.body;  // Get firstname and lastname from the request body
 
@@ -72,7 +72,7 @@ async function getUser(request, response) {
 
 async function updateUser(request, response) {
   try {
-    // const { accountEmail } = request.authUserData;
+    const { accountEmail } = request.authUserData;
     const  id  = request.params.id;
     const { password, firstname, lastname, userEmail, phonenumber,child, admin, userImage, age  } = request.body;
 
@@ -113,7 +113,7 @@ async function updateUser(request, response) {
 
 async function deleteUser(request, response) {
   try {
-    // const { accountEmail } = request.authUserData;
+    const { accountEmail } = request.authUserData;
     const id = request.params.id; // Get id from request params
 
     // Find and delete the user based on _id
