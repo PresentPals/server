@@ -248,8 +248,8 @@ If no user is found or is null, the server will respond with 404 Not Found statu
 If the user is found in the database then the server will respond with 200 OK and with a message User details found.
 
     catch (error) {
-    response.status(500).json({ message: error.message });
-  }
+      response.status(500).json({ message: error.message });
+    }
 
 Because of the try...catch block, if any errors occur within this function, they are automatically handled.
 
