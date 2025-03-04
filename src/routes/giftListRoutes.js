@@ -7,16 +7,16 @@ const router = express.Router();
 //use the validateToken middleware on these routes
 router.use(validateToken);
 
-// POST localhost:3000/api/giftlist/
+// POST localhost:5001/api/giftlist/
 router.post("/", createGiftList)
 
-// GET localhost:3000/api/giftlist/:id
+// GET localhost:5001/api/giftlist/:id
 router.get("/giftlist/:id", getGiftList);
 
-// UPDATE localhost:3000/api/giftlist/update/:id
+// UPDATE localhost:5001/api/giftlist/update/:id
 router.patch("/giftlist/update/:id", updateGiftList);
 
-// DELETE localhost:3000/api/giftlist/delete/:id
+// DELETE localhost:5001/api/giftlist/delete/:id
 router.delete("/giftlist/delete/:id", deleteGiftList);
 
 module.exports = router;

@@ -10,16 +10,16 @@ router.use(validateToken);
 // GET localhost:5173/api/user/
 router.get("/", getAllUsers);
 
-// GET localhost:3000/api/user/add
+// GET localhost:5001/api/user/add
 router.post("/add", createUser);
 
-// GET localhost:3000/api/user/:id
+// GET localhost:5001/api/user/:id
 router.get("/:id", getUser);
 
-// UPDATE localhost:3000/api/user/update/:id
+// UPDATE localhost:5001/api/user/update/:id
 router.patch("/:id", updateUser);
 
-// DELETE localhost:3000/api/user/delete/:id
+// DELETE localhost:5001/api/user/delete/:id
 router.delete("/:id", deleteUser);
 
 module.exports = router;
