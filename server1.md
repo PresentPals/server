@@ -4,6 +4,8 @@
 Created the following JS files to the models folder:
 
 ## UserModel
+![image_UserModel](./src/images/UserModel.png)
+
 The UserModel represents a data model for the user, and is typically used to define how the data about the users will be structured into a database. It could be part of a class or schema definition that interacts with a database like MongoDB, SQL or other equivalents. We are using a Mongoose framework (for MongoDB).
 
 ### UserSchema
@@ -26,7 +28,7 @@ The UserSchema code fields below defines the UserSchema within the UserModel, th
         - userEmail
         - phonenumber
         - admin
-        - avatar
+        - userImage
         - age
 
 ## GiftListModel
