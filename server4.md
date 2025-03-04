@@ -136,7 +136,7 @@ This code snippet imports the controller functions for handling the user operati
 - The <b>deleteUser</b> function is used to delete a user.
 
 
-    const { validateToken } = require("../middlewares/authMiddleware");
+![image_validateToken](./src/images/validateToken.png)
 
 This code imports the validateToken middleware function which is designed to authenticate the user before allowing access to certain specified routes. The middleware checks the JWT token validity and ensures the user is authenticated before proceeding with the requested operation.
 
