@@ -142,7 +142,7 @@ This code imports the validateToken middleware function which is designed to aut
 
     const router = express.Router();
 
-This code line creates a router instance and creates a new express router instance and the router will be used to define the routes for the user operations like CREATE, GET, UPDATE, and DELETE.
+This code line creates a router instance and creates a new express router instance, the router will be used to define the routes for the user operations like <b>CREATE, GET, UPDATE, and DELETE</b>.
 
 
     //use the validateToken middleware on these routes
@@ -154,25 +154,25 @@ This code is applying the validateToken middleware to all routes defined in the 
     // POST localhost:5001/api/user/
     router.post("/", createUser);
 
-This code is defining a POST route for creating a new user, the /path refers to the root path of this specific route module since its mounted on /api/user. The POST HTTP method is normally used for creating new resources on the server. 
+This code is defining a <b>POST</b> route for creating a new user, the /path refers to the root path of this specific route module since its mounted on /api/user. The POST HTTP method is normally used for creating new resources on the server. 
 
 The <b>createUser</b> function is the handler function that will execute wherever a POST request is made to the /api/user endpoint, this function should contain the logic for processing the request to create the new user. With a REQUEST the client (like Postman) sents a POST to your local host with the user details in the request body like firstname, lastname, email, password etc, the createUser function will receive these details in the request and extract the necessary information from the request body. The sever then processes the data, validates it, hashes the password and saves it to the database.
 
 The Response after creating the User is when the server responds to the client with a success message with the users' data, or an error message when an error occurs.
 
 
-    / GET localhost:5001/api/user/:id
+    // GET localhost:5001/api/user/:id
     router.get("/:id", getUser);
 
-The above code line is defining a route to GET a route for retrieving a specific user's information based on their ID. the :id part of the URL is a route parameter that represents a dynamic value, in this case the user's ID. When the GET request is made to the localhost the specific ID will be used to find the corresponding ID in the database
+The above code line is defining a route to <b>GET</b> a route for retrieving a specific user's information based on their ID. the :id part of the URL is a route parameter that represents a dynamic value, in this case the user's ID. When the GET request is made to the localhost the specific ID will be used to find the corresponding ID in the database
 
 
     // UPDATE localhost:5001/api/user/update/:id
     router.patch("/update/:id", updateUser);
 
-This line of code is updating an existing users information. The :id specifies that the route is updating a specific user, the :id part of the route paramater will be updated with the actual user ID as part of the request. The PATCH method is typically used to update a resource and is used when only certain fields or attributes of the resource needs updating not a full replacement. It updates the details of the specific user by their specific user id.
+This line of code is updating an existing users information. The :id specifies that the route is updating a specific user, the :id part of the route paramater will be updated with the actual user ID as part of the request. The <b>PATCH</b> method is typically used to update a resource and is used when only certain fields or attributes of the resource needs updating not a full replacement. It updates the details of the specific user by their specific user id.
 
-The <b>updateUser</b> function is the handler that will be invoked when a PATCH request made. This function will contain all the logic to handle the update like validating the data, updating the data and returning the updated user data.  The REQUEST from the client, (like Postman) sends a PATCH request to the localhost where the unit identifies the user, via their id, in the request body it will contain the fields that are being updated. The updateUser function will extract this information from the id from the URL parameter (req.params.id) and the new user data from the request body. The function then updates the users' database. Once completed a RESPONSE will be returned with a success message and the updated user data, or if there is an error, it will be handled via either 404 Not Found or 500 Internal Server Error.
+The <b>updateUser</b> function is the handler that will be invoked when a <b>PATCH</b> request made. This function will contain all the logic to handle the update like validating the data, updating the data and returning the updated user data.  The REQUEST from the client, (like Postman) sends a PATCH request to the localhost where the unit identifies the user, via their id, in the request body it will contain the fields that are being updated. The updateUser function will extract this information from the id from the URL parameter (req.params.id) and the new user data from the request body. The function then updates the users' database. Once completed a RESPONSE will be returned with a success message and the updated user data, or if there is an error, it will be handled via either 404 Not Found or 500 Internal Server Error.
 
 
     // DELETE localhost:5001/api/user/delete/:id
