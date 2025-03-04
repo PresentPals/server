@@ -68,6 +68,8 @@ This defines the overall structure of the gift list. It represents a collection 
 - <b>dateEvent</b> This enables you to put in the date of the birthday or event, to see a countdown until the special day. Helps to contextualise the gift list and can be used for event planning.
 
 #### GiftListSchema:
+![GiftListSchema_image](./src/images/GiftListSchema_code.png)
+
 
     - GiftListSchema
 
@@ -86,7 +88,6 @@ This defines the overall structure of the gift list. It represents a collection 
 The GiftListSchema will use the childGiftSchema to reference the actual items/gifts in the created list. Each gift list is tied to an event or person (for example a childs birthday) and each gift within that list is described by it's own schema like name, image, description, web address. The childUser references the person for whom the gift list is made for while the childGiftList contains the list of desired gifts which gets structured by its relationship with childGiftSchema.
 
 ### Example in Code 
-![GiftListSchema_image](./src/images/GiftListSchema_code.png)
 
 ![childGiftList_image](./src/images/childGiftSchema_code.png)
 
