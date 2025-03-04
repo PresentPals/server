@@ -93,8 +93,6 @@ Each route module contains the logic for handling specific HTTP requests like GE
 
 ### Export the app Object
 
-![image_exporting_app](./src/images/setting_routes_code.png)
-
 module.exports = { app };
 
 This line exports the app object so it can be used in other parts of the app, you can import app and start the server by calling app.listen().
