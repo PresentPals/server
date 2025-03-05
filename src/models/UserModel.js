@@ -7,7 +7,7 @@ const UserSchema = new mongoose.Schema({
     required: true,
     trim: true,
     lowercase: true,
-    // match: [/.+@.+\..+/i, "Please enter a valid email address"]
+    
   },
   password: {
     // The user password to login.
@@ -25,9 +25,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  userEmail: {
+  userName: {
     // each users email address (for users reference only).
-    type: String
+    type: String,
+    unique: true
   },
   phonenumber: {
     // Users phone number.
@@ -35,11 +36,11 @@ const UserSchema = new mongoose.Schema({
   },
   child: {
     type: Boolean,
+    default: false
   },
   admin: {
     // If the user has admin rights or not.
     type: Boolean,
-    // required: true,
     default: true
   },
   userImage: {
