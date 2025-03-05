@@ -6,16 +6,23 @@ const bcrypt = require("bcrypt");
 async function createUser(request, response) {
   try {
 
-    const { firstname, lastname, password, accountEmail } = request.body;
+    const {  password, userName, ...fields } = request.body;
 
-    // Ensure required fields are present
-    if (!firstname || !lastname || !password || !accountEmail) {
-      return respond.status(400).json({ message: 'Missing required fields!' });
+// Use bcrypt to hash the password
+    const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt value
+
+    // Check if username already exists
+    const existingUserName = await User.findOne({ userName });
+    if (existingUserName) {
+        return response.status(400).json({ message: "This username is already in use. Please use another username!" });
     }
 
     const user = await User.create(
-      { ...request.body, }
-    ); // Create the entire body 
+      { ...fields,
+        userName,
+        password: hashedPassword,
+       }
+    ); // Create the entire body with hashed password.
 
     response.status(201).json({
       message: "Profile details created successfully",
@@ -28,8 +35,7 @@ async function createUser(request, response) {
 
 async function getAllUsers(request, response) {
   try {
-    const { accountEmail } = request.authUserData;
-    
+    const  { accountEmail }  = request.authUserData;
 
     const users = await User.find({ accountEmail });
 
@@ -51,10 +57,10 @@ async function getAllUsers(request, response) {
 async function getUser(request, response) {
   try {
     const { accountEmail } = request.authUserData;
+     
     const { id } = request.params;
-    // const { firstname, lastname } = request.body;  // Get firstname and lastname from the request body
 
-    // Search for the user by where both firstname and lastname must match
+    // Search for the profile by id.
     const user = await User.findOne({ _id: id });
 
     if (!user) {
@@ -73,8 +79,9 @@ async function getUser(request, response) {
 async function updateUser(request, response) {
   try {
     const { accountEmail } = request.authUserData;
+
     const  id  = request.params.id;
-    const { password, firstname, lastname, userEmail, phonenumber,child, admin, userImage, age  } = request.body;
+    const { password, firstname, lastname, userName, phonenumber, child, admin, userImage, age  } = request.body;
 
     // Find the user based on _id
     const user = await User.findOne({ _id: id });
@@ -91,7 +98,7 @@ async function updateUser(request, response) {
     // Update the user with the new data from the request body
     user.firstname = firstname;
     user.lastname = lastname;
-    user.userEmail = userEmail;
+    user.userName = userName;
     user.phonenumber = phonenumber;
     user.child = child;  
     user.admin = admin;
@@ -114,6 +121,7 @@ async function updateUser(request, response) {
 async function deleteUser(request, response) {
   try {
     const { accountEmail } = request.authUserData;
+
     const id = request.params.id; // Get id from request params
 
     // Find and delete the user based on _id
