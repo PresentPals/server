@@ -6,7 +6,7 @@ const authRoutes = require("./routes/authRoutes");
 const userRoutes= require("./routes/userRoutes");
 const giftListRoutes = require("./routes/giftListRoutes");
 
-const corsoptions = { origin: ["http://localhost:5174", "http://127.0.0.1:5174", "http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:5001", "http://127.0.0.1:5001" ]};
+const corsoptions = { origin: ["http://localhost:5174", "http://127.0.0.1:5174", "http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:5001", "http://127.0.0.1:5001"], methods: ["POST", "GET", "PATCH", "DELETE"],  credentials: true };
 
 
 const app = express();
