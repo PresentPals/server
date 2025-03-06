@@ -5,18 +5,18 @@ const jwt = require("jsonwebtoken");
 
 async function signupUser(request, response) {
     // Importing the signup details from the request body
-    const { accountEmail, firstname, lastname, password } = request.body;
+    const { accountEmail, userName, firstname, lastname, password } = request.body;
 
-    // Checking to see if the email exists
+    // Check if accountEmail already exists
     const existingEmail = await User.findOne({ accountEmail });
-
-    // If the email exists, send an error message
     if (existingEmail) {
-        return response
-        .status(400)
-        .json({
-            "message": "This email is already in use. Please re-enter another email!"
-        });
+        return response.status(400).json({ message: "This email is already in use. Please use another email!" });
+    }
+
+    // Check if username already exists
+    const existingUserName = await User.findOne({ userName });
+    if (existingUserName) {
+        return response.status(400).json({ message: "This username is already in use. Please use another username!" });
     }
 
     // Use bcrypt to hash the password
@@ -25,6 +25,7 @@ async function signupUser(request, response) {
     // Create the user using the User model
     const user = await User.create({
         accountEmail,
+        userName,
         firstname,
         lastname,
         password: hashedPassword 
@@ -34,23 +35,23 @@ async function signupUser(request, response) {
     response
     .status(201)
     .json({
-        "message": `User ${firstname}, ${lastname} with email: ${accountEmail}, has successfully signed up!`
+        "message": `Your ${userName} with ${firstname}, ${lastname} and email: ${accountEmail}, has successfully signed up!`
     });
 }
 
 async function loginUser(request, response) {
     // Importing the email and password from the request body
-    const { accountEmail, password } = request.body;
+    const { userName, password } = request.body;
 
     // Check if the user is in the database
-    const user = await User.findOne({ accountEmail });
+    const user = await User.findOne({ userName });
 
     // If the user does not exist, send an error message
     if (!user){
         return response
         .status(400)
         .json({
-            "message": "Invalid email. Email does not exist. Please go to the signup page."
+            "message": "Invalid username. That username does not exist. Please speak to your parent account holder.."
         });
     }
 
@@ -59,16 +60,20 @@ async function loginUser(request, response) {
 
     if (!isPasswordValid) {
         return response
-        .status(400)
+        .status(401)
         .json({
-            "message": "Invalid password. Please try again !"
+            "message": "Incorrect password. Please try again !"
         });
     }
+    const accountEmail = user.accountEmail;
+    const admin = user.admin;
+    const child = user.child;
+    const childId = user._id;
 
     const token = jwt.sign(
-        {accountEmail: accountEmail},
+        {accountEmail: accountEmail, admin: admin, child: child, childId: childId},
         process.env.JWT_SECRET,
-        { expiresIn: "1h"}
+        { expiresIn: "2h"}
     );
 
     response.status(200).json(

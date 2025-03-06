@@ -32,7 +32,7 @@ If the email already exists, the server responds with a <b>400</b> HTTP status t
 
 ### Hashing passwords
 ![image_hashing_passwords](./src/images/bcrypt_hash_pswd.png)
-)
+
 This line of code is used to "hash" the user's password before storing it into the database. <b>bcrypt.hash()</b> function provides the bcrypt library that will take two arguments, the plain text password supplied by the user, and the salt rounds or cost factor used to generate the hash. The salt is a random value added to the password before hashign to make sure that even if two users have the same password the has values are different.
 
 ### UserModel
@@ -183,7 +183,7 @@ This code is designed to delete a gift list from the database based on the provi
 
 The code <b>GiftList.destroy()</b> method is used to delete records from the database that match the user gift list title that matches the giftListTitle. <b>where: {giftListTitle}</b> the where condition ensures that only the gift list that matches the condition is true will be deleted. The <b>await</b> ensures the function waits for the deletion operation to complete before proceeding. 
 
-Checking if the deletion was successful with <b>return response .status(404) and puts the JSON message "That gift list title does not exist." confirms the gift list title has been deleted, as it no longer appears in the database when searched.
+Checking if the deletion was successful with <b>return</b> response .status(404) and puts the JSON message "That gift list title does not exist." confirms the gift list title has been deleted, as it no longer appears in the database when searched.
 
 <b>deleteGiftList === 0 </b> The destroy() method returns the number of rows deleted. If no rows were deleted for example if no gift list with the specified title was found it will return 0. If no rows were deleted the function sends a 404 Not Found response with the message "That gift list title does not exist." This informs the client that no matching gift list was found in the database.
 
@@ -240,20 +240,21 @@ This code ensures that the code waits for the asynchronous operation to complete
     }
 If no user is found or is null, the server will respond with 404 Not Found status and a message to indicate that no user was found.
 
-   response.status(200).json({
+    response.status(200).json({
       message: "User details found.",
       user: user
     });
+
 If the user is found in the database then the server will respond with 200 OK and with a message User details found.
 
-  catch (error) {
-    response.status(500).json({ message: error.message });
-  }
+    catch (error) {
+      response.status(500).json({ message: error.message });
+    }
 
 Because of the try...catch block, if any errors occur within this function, they are automatically handled.
 
 ### Update User Function
-![image_update_user](./src/images/)
+![image_update_user](./src/images/update_user.png)
 
 The async function is designed to handle the process of updating the users details in the database, when the async function is declared it will handle the operations asynchronously, the request handles the HTTP requests containing the users updated details from the body of the request and the response object is used to send the response back to the client once the operation has completed.
 
