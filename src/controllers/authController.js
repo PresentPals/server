@@ -71,7 +71,7 @@ async function loginUser(request, response) {
     const childId = user._id;
 
     const token = jwt.sign(
-        {accountEmail: accountEmail, admin: admin, child: child, childId: childId },
+        {accountEmail: accountEmail, admin: admin, child: child, childId: childId},
         process.env.JWT_SECRET,
         { expiresIn: "2h"}
     );
