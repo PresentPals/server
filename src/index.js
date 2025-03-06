@@ -5,7 +5,7 @@ const { connectDB } = require("./utils/database");
 require("dotenv").config();
 
 // GET the PORT
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, async() => {
     // Server is running at this point
