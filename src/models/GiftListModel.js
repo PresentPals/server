@@ -38,6 +38,9 @@ const GiftListSchema = new mongoose.Schema({
     // If the user creating wants to add a gift list image.
     type: String
   },
+  listDescription: {
+    type: String
+  },
   childUser: {
     // The child user this gift list is for.
     type: String,
@@ -47,12 +50,12 @@ const GiftListSchema = new mongoose.Schema({
     // Array of each of the childs gift objects.
     type: [childGiftSchema]
   },
-  userCreated: {
-    // User that created the list.
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true
-  },
+  // userCreated: {
+  //   // User that created the list.
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: "User",
+  //   required: true
+  // },
   privateList: {
     // true = private, false = public
     type: Boolean,
