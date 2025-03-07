@@ -4,12 +4,10 @@ const { GiftList } = require("../models/GiftListModel");
 async function createGiftList(request, response) {
   try {
 
-    const { giftListTitle, accountEmail,  giftListImage, childUser, childGiftList, userCreated, privateList,  dateEvent } = request.body;
+    const { giftListTitle, accountEmail, listDescription, childUser, privateList,  dateEvent } = request.body;
 
     // Check if a gift list with the same title already exists
-    const existingGiftList = await GiftList.findOne({
-      where: { giftListTitle }
-    });
+    const existingGiftList = await GiftList.findOne({ giftListTitle });
 
     if (existingGiftList) {
       return response
