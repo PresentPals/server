@@ -4,19 +4,31 @@ const childGiftSchema = new mongoose.Schema({
   // Schema list for the gifts the child would like.
   giftName: {
     // Gifts added the child would like.
-    type: String
+    type: String,
+    default: ""
   },
   giftDescription: {
     // Description of the gift.
-    type: String
+    type: String,
+    default: ""
   },
   giftImage: {
     // Image of the gift.
-    type: String
+    type: String,
+    default: ""
   },
   giftWebAddress: {
     // Url of where gift can be purchased.
-    type: String
+    type: String,
+    default: ""
+  },
+  purchased: {
+    type: Boolean,
+    default: false
+  },
+  purchasedBy: {
+    type: String,
+    default: ""
   }
 });
 
@@ -32,7 +44,7 @@ const GiftListSchema = new mongoose.Schema({
     required: true,
     trim: true,
     lowercase: true,
-    match: [/.+@.+\..+/i]
+    // match: [/.+@.+\..+/i]
   },
   giftListImage: {
     // If the user creating wants to add a gift list image.
@@ -48,7 +60,17 @@ const GiftListSchema = new mongoose.Schema({
   },
   childGiftList: {
     // Array of each of the childs gift objects.
-    type: [childGiftSchema]
+    type: [childGiftSchema],
+    default: [
+      {
+        giftName: "",
+        giftDescription: "",
+        giftImage: "",
+        giftWebAddress: "",
+        purchased: false,
+        purchasedBy: ""
+      }
+    ]
   },
   // userCreated: {
   //   // User that created the list.
