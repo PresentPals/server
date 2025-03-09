@@ -69,9 +69,10 @@ async function loginUser(request, response) {
     const admin = user.admin;
     const child = user.child;
     const childId = user._id;
+    const userLoggedIn = user.userName;
 
     const token = jwt.sign(
-        {accountEmail: accountEmail, admin: admin, child: child, childId: childId},
+        {accountEmail: accountEmail, admin: admin, child: child, childId: childId, userLoggedIn: userLoggedIn},
         process.env.JWT_SECRET,
         { expiresIn: "2h"}
     );
