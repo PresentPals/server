@@ -1,5 +1,5 @@
 const express = require("express");
-const { createGiftList, getGiftList, updateGiftList, deleteGiftList  } = require("../controllers/giftListController");
+const { createGiftList, getGiftList, updateGiftList, deleteGiftList, getAllEvents, getGiftItem, updatePurchased  } = require("../controllers/giftListController");
 const { validateToken } = require("../middlewares/authMiddleware");
 
 const router = express.Router();
@@ -8,13 +8,22 @@ const router = express.Router();
 router.use(validateToken);
 
 // POST localhost:5001/api/giftlist/
-router.post("/", createGiftList)
+router.post("/event", createGiftList)
+
+// GET localhost:5001/api/giftlist/item/:id
+router.get("/:id/item", getGiftItem);
+
+// GET localhost:5001/api/giftlist/:id/item
+router.patch("/:id/item", updatePurchased);
+
+// UPDATE localhost:5001/api/giftlist/:id/add
+router.post("/:id/add", updateGiftList);
 
 // GET localhost:5001/api/giftlist/:id
-router.get("/giftlist/:id", getGiftList);
+router.get("/:id", getGiftList);
 
-// UPDATE localhost:5001/api/giftlist/update/:id
-router.patch("/giftlist/update/:id", updateGiftList);
+// GET localhost:5001/api/giftlist/
+router.get("/", getAllEvents);
 
 // DELETE localhost:5001/api/giftlist/delete/:id
 router.delete("/giftlist/delete/:id", deleteGiftList);
