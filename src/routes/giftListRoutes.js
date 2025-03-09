@@ -11,10 +11,10 @@ router.use(validateToken);
 router.post("/event", createGiftList)
 
 // GET localhost:5001/api/giftlist/item/:id
-router.get("/:id/item", getGiftItem);
+router.get("/:id/:giftId", getGiftItem);
 
 // GET localhost:5001/api/giftlist/:id/item
-router.patch("/:id/item", updatePurchased);
+router.patch("/:id/:giftId", updatePurchased);
 
 // UPDATE localhost:5001/api/giftlist/:id/add
 router.post("/:id/add", updateGiftList);
