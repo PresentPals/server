@@ -72,9 +72,10 @@ async function getGiftList(request, response) {
 async function getGiftItem(request, response) {
   try {
 
-    const  { id }  = request.params;
+    const  { id, giftId }  = request.params;
 
-    const nestedGift = await GiftList.FindOne({ "childGiftList._id": id }); 
+    const nestedGift = await GiftList.findOne({ _id: id,
+      "childGiftList._id": giftId }); 
 
     if (!nestedGift) {
       return response
@@ -83,7 +84,7 @@ async function getGiftItem(request, response) {
     }
 
     // Extract the specific gift from childGiftList
-    const giftItem = nestedGift.childGiftList.find(gift => gift._id.toString() === id);
+    const giftItem = nestedGift.childGiftList.find(gift => gift._id.toString() === giftId);
 
     if (!giftItem) {
       return response.status(404).json({ message: "Gift not found." });
@@ -125,27 +126,77 @@ async function updatePurchased(request, response) {
   try {
     const { userName } = request.authUserData;
 
-    const { id }  = request.params;
+    const  { id, giftId }  = request.params;
+
+    const   data   = request.body;
     
-    const { data } = request.body;
+    const nestedGift = await GiftList.findOne({ _id: id,
+      "childGiftList._id": giftId }); 
+      
 
-    const nestedGift = await GiftList.FindOne({ "childGiftList._id": id }); 
+    // If the gift list doesn't exist, return an error
+    if (!nestedGift) {
+      return response.status(404).json({ message: "That Gift list not found."});
+    }
 
-    if (nestedGift.purchased === true) {
+     // Check if the gift has already been purchased
+     const gift = nestedGift.childGiftList.find(gift => gift._id.toString() === giftId);
+
+     if (!gift) {
+       return response
+         .status(404)
+         .json({ message: "Gift not found." });
+     }
+
+     if (gift.purchased === true) {
       return response
         .status(404)
         .json({ message: "That gift has already been purchased by somebody else." });
     }
+ 
+     // Update the `purchased` field and `purchasedBy` for the specific gift in the `childGiftList`
+     const updatedPurchased = await GiftList.findOneAndUpdate(
+       { _id: id, "childGiftList._id": giftId },
+       { 
+         $set: {
+           "childGiftList.$.purchased": data.purchased,
+           "childGiftList.$.purchasedBy": data.purchasedBy,
+         } 
+       },
+       { new: true, runValidators: true }
+     );
+ 
+     if (!updatedPurchased) {
+       return response.status(404).json({ message: "Gift not found for updating." });
+     }
   
-      const updatedPurchased = await GiftList.findByIdAndUpdate(
-        {"childGiftList._id": id},
-        { $push: { childGiftList: data } }, // Adds newGift to the array
-        { new: true, runValidators: true } // Returns updated document & validates schema
-      );
-  
-      response.status(200).json({
+      response.status(201).json({
         message: "The gift purchased details have been added.",
         updatedPurchased: updatedPurchased,
+      });
+    } catch (error) {
+      console.error("Error in updatePurchased:", error);
+      response.status(500).json({ error: error.message });
+    }
+}
+
+async function createSharedUser (request, response) {
+  try {
+      const { id } = request.params;
+      const { data } = request.body;
+  
+      const addSharedUser = await GiftList.findByIdAndUpdate(id,
+        { $push: { userShared: data } }, // Adds newGift to the array
+        { new: true, runValidators: true } // Returns updated document & validates schema
+      );
+
+      if (!addSharedUser) {
+        return response.status(404).json({ message: "Shared user list not found." });
+      }
+  
+      response.status(201).json({
+        message: "The shared user details have been added.",
+        addSharedUser: addSharedUser,
       });
     } catch (error) {
       response.status(500).json({ error: error.message });
@@ -183,6 +234,7 @@ module.exports = {
   getGiftItem,
   updateGiftList,
   updatePurchased,
+  createSharedUser,
   deleteGiftList
 };
 
