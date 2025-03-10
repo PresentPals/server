@@ -206,22 +206,45 @@ async function createSharedUser (request, response) {
 
 async function deleteGiftList(request, response) {
   try {
-    const { giftListTitle } = request.body; // Gift list title from the body
+    const { giftListTitle } = request.body; 
 
-    const deleteGiftList = await GiftList.destroy({
-      where: { giftListTitle },
-    }); // Delete the gift list from the gift list collection.
+    const id = request.params.id;
+    
+    const deleteGiftList = await GiftList.deleteOne({ _id: id  });
+    // Delete the gift list from the gift list collection.
 
     // If nothing was deleted, return a response
     if (deleteGiftList === 0) {
       return response
         .status(404)
-        .json({ message: "That gift list title does not exist." });
+        .json({ message: "That gift list does not exist, so cannot be deleted." });
     }
     // The response when deleted
     response.status(200).json({
       message: "The gift list details have been deleted.",
     });
+  } catch (error) {
+    response.status(500).json({ message: error.message });
+  }
+}
+
+async function deleteGiftItem(request, response) {
+  try {
+
+    const { id, giftId } = request.params;
+    
+   // Use the $pull operator to remove the object with the matching id from the childGiftList array
+   const updatedGiftList = await GiftList.findOneAndUpdate(
+    { _id: id },
+    { $pull: { childGiftList: { _id: giftId } } }, // Delete the child gift list by its _id
+    { new: true } // Return the updated document
+  );
+
+  if (!updatedGiftList) {
+    return response.status(404).json({ message: 'Gift list not found' });
+  }
+
+  response.status(200).json({ message: 'Child gift item deleted successfully', updatedGiftList });
   } catch (error) {
     response.status(500).json({ message: error.message });
   }
@@ -235,6 +258,7 @@ module.exports = {
   updateGiftList,
   updatePurchased,
   createSharedUser,
-  deleteGiftList
+  deleteGiftList,
+  deleteGiftItem
 };
 
