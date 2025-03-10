@@ -180,6 +180,29 @@ async function updatePurchased(request, response) {
     }
 }
 
+async function createSharedUser (request, response) {
+  try {
+      const { id } = request.params;
+      const { data } = request.body;
+  
+      const addSharedUser = await GiftList.findByIdAndUpdate(id,
+        { $push: { userShared: data } }, // Adds newGift to the array
+        { new: true, runValidators: true } // Returns updated document & validates schema
+      );
+
+      if (!addSharedUser) {
+        return response.status(404).json({ message: "Shared user list not found." });
+      }
+  
+      response.status(201).json({
+        message: "The shared user details have been added.",
+        addSharedUser: addSharedUser,
+      });
+    } catch (error) {
+      response.status(500).json({ error: error.message });
+    }
+}
+
 
 async function deleteGiftList(request, response) {
   try {
@@ -211,6 +234,7 @@ module.exports = {
   getGiftItem,
   updateGiftList,
   updatePurchased,
+  createSharedUser,
   deleteGiftList
 };
 
