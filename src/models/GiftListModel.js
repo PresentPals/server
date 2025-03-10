@@ -32,6 +32,19 @@ const childGiftSchema = new mongoose.Schema({
   }
 });
 
+const sharedSchema = new mongoose.Schema({
+  // Schema list for the shared users of the list.
+  sharedUserName: {
+    type: String
+  },
+  sharedFirstName: {
+    type: String
+  },
+  sharedLastName: {
+    type: String
+  }
+});
+
 const GiftListSchema = new mongoose.Schema({
   giftListTitle: {
     // Title of the gift list.
@@ -72,12 +85,17 @@ const GiftListSchema = new mongoose.Schema({
       }
     ]
   },
-  // userCreated: {
-  //   // User that created the list.
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: "User",
-  //   required: true
-  // },
+  userShared: {
+    // Users having this list shared with them.
+    type: [sharedSchema],
+    default: [
+      {
+        sharedUserName: "",
+        sharedFirstName: "",
+        sharedLastName: ""
+      }
+    ]
+  },
   privateList: {
     // true = private, false = public
     type: Boolean,
