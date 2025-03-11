@@ -35,7 +35,7 @@ async function signupUser(request, response) {
     response
     .status(201)
     .json({
-        "message": `Your ${userName} with ${firstname}, ${lastname} and email: ${accountEmail}, has successfully signed up!`
+        "message": `Your User Name: ${userName} , for: ${firstname} ${lastname} and email: ${accountEmail}, has successfully signed up! Please now go to the Login page.`
     });
 }
 
@@ -51,7 +51,7 @@ async function loginUser(request, response) {
         return response
         .status(400)
         .json({
-            "message": "Invalid username. That username does not exist. Please speak to your parent account holder.."
+            "message": "Invalid username. That username does not exist. Please speak to your admin account holder.."
         });
     }
 
