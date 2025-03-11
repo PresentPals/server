@@ -1,4 +1,6 @@
 const { GiftList } = require("../models/GiftListModel");
+const multer = require("multer");
+const path = require("path");
 
 
 async function createGiftList(request, response) {
@@ -99,10 +101,31 @@ async function getGiftItem(request, response) {
   }
 }
 
+// Set up multer for file storage
+const storage = multer.diskStorage({
+  destination: (request, file, cb) => {
+    cb(null, "uploads/"); // Store images in 'uploads' folder
+  },
+  filename: (request, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname)); // Rename file
+  },
+});
+
+const upload = multer({ storage });
+
 async function updateGiftList(request, response) {
   try {
       const { id } = request.params;
-      const { newGift } = request.body;
+      const { giftName, giftDescription, giftWebAddress, } = request.body;
+      const imagePath = request.file ? `/uploads/${request.file.filename}` : "";
+
+      newGift = {
+        giftName,
+        giftDescription,
+        giftWebAddress,
+        giftImage: imagePath
+      }
+      console.log("newGift", newGift)
   
       const addGift = await GiftList.findByIdAndUpdate(id,
         { $push: { childGiftList: newGift } }, // Adds newGift to the array
@@ -255,6 +278,7 @@ module.exports = {
   getAllEvents,
   getGiftList,
   getGiftItem,
+  upload,
   updateGiftList,
   updatePurchased,
   createSharedUser,
