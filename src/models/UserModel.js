@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
   accountEmail: {
-    // The email address for admin user to log in. This used to group all family & friends to the same account
+    // The email address for admin user to log in. This used to group all family & friends to the same account once admin has craeted users / profile for members to login 
     type: String,
     required: true,
     trim: true,
@@ -26,7 +26,7 @@ const UserSchema = new mongoose.Schema({
     required: true
   },
   userName: {
-    // each users email address (for users reference only).
+    // each users username for login access.
     type: String,
     unique: true
   },
@@ -35,6 +35,7 @@ const UserSchema = new mongoose.Schema({
     type: String
   },
   child: {
+    // this is if the user is a child === true, adult === false
     type: Boolean,
     default: false
   },
@@ -44,7 +45,7 @@ const UserSchema = new mongoose.Schema({
     default: true
   },
   userImage: {
-    // The user can add a image of themselves.
+    // The user can add a Avatar to their profile.
     type: String
   },
   age: {

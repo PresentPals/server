@@ -7,19 +7,19 @@ const router = express.Router();
 //use the validateToken middleware on these routes
 router.use(validateToken);
 
-// GET localhost:5173/api/user/
+// GET localhost:5001/api/user/
 router.get("/", getAllUsers);
 
-// GET localhost:5001/api/user/add
+// POST localhost:5001/api/user/add
 router.post("/add", createUser);
 
 // GET localhost:5001/api/user/:id
 router.get("/:id", getUser);
 
-// UPDATE localhost:5001/api/user/update/:id
+// UPDATE localhost:5001/api/user/:id
 router.patch("/:id", updateUser);
 
-// DELETE localhost:5001/api/user/delete/:id
+// DELETE localhost:5001/api/user/:id
 router.delete("/:id", deleteUser);
 
 module.exports = router;

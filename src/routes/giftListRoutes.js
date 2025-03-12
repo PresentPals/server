@@ -7,19 +7,19 @@ const router = express.Router();
 //use the validateToken middleware on these routes
 router.use(validateToken);
 
-// POST localhost:5001/api/giftlist/
+// POST localhost:5001/api/giftlist/event
 router.post("/event", createGiftList)
 
 // GET localhost:5001/api/giftlist/:id/:giftId
 router.get("/:id/:giftId", getGiftItem);
 
-// PATCH localhost:5001/api/giftlist/:id/giftId
+// PATCH localhost:5001/api/giftlist/:id/:giftId
 router.patch("/:id/:giftId", updatePurchased);
 
-// DELETE localhost:5001/api/giftlist/:id/giftId
+// DELETE localhost:5001/api/giftlist/:id/:giftId
 router.delete("/:id/:giftId", deleteGiftItem);
 
-// POST localhost:5001/api/giftlist/:id/add
+// POST localhost:5001/api/giftlist/:id/add & allow single images to be uploaded
 router.post("/:id/add", upload.single("image"), updateGiftList);
 
 // POST localhost:5001/api/giftlist/:id

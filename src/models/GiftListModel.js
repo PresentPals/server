@@ -1,55 +1,61 @@
 const mongoose = require("mongoose");
 
 const childGiftSchema = new mongoose.Schema({
-  // Schema list for the gifts the child would like.
+  // Schema list for the gifts the child would like. A nested object for each gift.
   giftName: {
-    // Gifts added the child would like.
+    // Gift name entered.
     type: String,
-    default: ""
+    default: "",
   },
   giftDescription: {
     // Description of the gift.
     type: String,
-    default: ""
+    default: "",
   },
   giftImage: {
     // Image of the gift.
     type: String,
-    default: ""
+    default: "",
   },
   giftWebAddress: {
     // Url of where gift can be purchased.
     type: String,
-    default: ""
+    default: "",
   },
   purchased: {
+    // if an adult has marked this gift as being purchased === true
     type: Boolean,
-    default: false
+    default: false,
   },
   purchasedBy: {
+    // the adult username that has marked purchased  === true.
     type: String,
-    default: ""
-  }
+    default: "",
+  },
 });
 
 const sharedSchema = new mongoose.Schema({
-  // Schema list for the shared users of the list.
+  // Schema list for the shared adult users of this gift list. A nested object for multiple adults.
   sharedUserName: {
-    type: String
+    // adult username added.
+    type: String,
   },
   sharedFirstName: {
-    type: String
+    // adult firstname added
+    type: String,
   },
   sharedLastName: {
-    type: String
-  }
+    // adult lastname added.
+    type: String,
+  },
 });
 
+// this is the main gift list object schema:
 const GiftListSchema = new mongoose.Schema({
   giftListTitle: {
     // Title of the gift list.
     type: String,
-    required: true
+    required: true,
   },
   accountEmail: {
     // accountEmail to group the gift lists to only the account of the user that created it.
@@ -57,19 +63,18 @@ const GiftListSchema = new mongoose.Schema({
     required: true,
     trim: true,
     lowercase: true,
-    // match: [/.+@.+\..+/i]
   },
   giftListImage: {
     // If the user creating wants to add a gift list image.
-    type: String
+    type: String,
   },
   listDescription: {
-    type: String
+    type: String,
   },
   childUser: {
     // The child user this gift list is for.
     type: String,
-    required: true
+    required: true,
   },
   childGiftList: {
     // Array of each of the childs gift objects.
@@ -81,40 +86,40 @@ const GiftListSchema = new mongoose.Schema({
         giftImage: "",
         giftWebAddress: "",
         purchased: false,
-        purchasedBy: ""
-      }
-    ]
+        purchasedBy: "",
+      },
+    ],
   },
   userShared: {
-    // Users having this list shared with them.
+    // Adult users having this list shared with them.
     type: [sharedSchema],
     default: [
       {
         sharedUserName: "",
         sharedFirstName: "",
-        sharedLastName: ""
-      }
-    ]
+        sharedLastName: "",
+      },
+    ],
   },
   privateList: {
     // true = private, false = public
     type: Boolean,
-    default: false
+    default: false,
   },
   dateCreated: {
     // Date the list was created.
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   dateEvent: {
-    // Date the event this list is required = because of the childUsers birthdate, Christmas day, date of the party etc.
+    // Date the event this list is required for = because of the childUsers birthdate, Christmas day, date of the party etc.
     type: Date,
-    required: true
+    required: true,
   },
 });
 
 const GiftList = mongoose.model("GiftList", GiftListSchema);
 
 module.exports = {
-  GiftList
+  GiftList,
 };

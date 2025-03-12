@@ -22,7 +22,7 @@ async function signupUser(request, response) {
     // Use bcrypt to hash the password
     const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt value
 
-    // Create the user using the User model
+    // Create the user fields using the User model
     const user = await User.create({
         accountEmail,
         userName,
@@ -70,7 +70,7 @@ async function loginUser(request, response) {
     const child = user.child;
     const childId = user._id;
     const userLoggedIn = user.userName;
-
+    // sign the token with the following fields , so the users & their status that have logged in can be tracked. Token expires in 2 hours:
     const token = jwt.sign(
         {accountEmail: accountEmail, admin: admin, child: child, childId: childId, userLoggedIn: userLoggedIn},
         process.env.JWT_SECRET,
